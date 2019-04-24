@@ -44,7 +44,7 @@
     state: "directory"
     owner: "git"
     group: "git"
-    mode: 0660
+    mode: 0770
   become: true
   when:
     - wtd_app_git_mode == "server"

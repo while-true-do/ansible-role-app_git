@@ -39,4 +39,4 @@ def test_git_directory(host):
     assert dir.is_directory
     assert dir.user == 'git'
     assert dir.group == 'git'
-    assert oct(dir.mode) == '0o660'
+    assert oct(dir.mode) == '0o770'
