@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    wtd_app_git_mode: "server"
+  roles:
+    - role: while_true_do.app_git

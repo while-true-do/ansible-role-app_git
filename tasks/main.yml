@@ -1,0 +1,54 @@
+---
+# tasks file for while_true_do.app_git
+
+- name: Manage git Packages
+  package:
+    name: "{{ wtd_app_git_package }}"
+    state: "{{ wtd_app_git_package_state }}"
+  become: true
+  tags:
+    - git
+    - package
+
+- name: Manage git Shell
+  lineinfile:
+    path: "/etc/shells"
+    line: "/usr/bin/git-shell"
+  become: true
+  when:
+    - wtd_app_git_mode == "server"
+    - wtd_app_git_package_state != "absent"
+  tags:
+    - git
+    - shell
+
+- name: Manage git User
+  user:
+    name: "git"
+    state: "present"
+    comment: "technical git user"
+    shell: "/usr/bin/git-shell"
+    system: true
+    password_lock: true
+  become: true
+  when:
+    - wtd_app_git_mode == "server"
+    - wtd_app_git_package_state != "absent"
+  tags:
+    - git
+    - user
+
+- name: Manage git Directory
+  file:
+    path: "{{ wtd_app_git_dir }}"
+    state: "directory"
+    owner: "git"
+    group: "git"
+    mode: 0660
+  become: true
+  when:
+    - wtd_app_git_mode == "server"
+    - wtd_app_git_package_state != "absent"
+  tags:
+    - git
+    - directory

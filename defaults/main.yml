@@ -1,0 +1,14 @@
+---
+# defaults file for while_true_do.app_git
+
+# Mode can be local|server
+wtd_app_git_mode: "local"
+
+wtd_app_git_package:
+  - git
+  - git-svn
+# State can be present|latest|absent
+wtd_app_git_package_state: "present"
+
+# Below variables are only used for wtd_app_git_mode: "server"
+wtd_app_git_dir: "/git"
