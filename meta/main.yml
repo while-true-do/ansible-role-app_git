@@ -24,6 +24,9 @@ galaxy_info:
   galaxy_tags:
     - git
     - package
-    - server
+    - service
+    - development
+    - configuration
+    - system
 
 dependencies: []
