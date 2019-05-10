@@ -64,8 +64,8 @@ git clone https://github.com/while-true-do/ansible-role-app_git.git while_true_d
 ---
 # defaults file for while_true_do.app_git
 
-# Mode can be local|server
-wtd_app_git_mode: "local"
+# Role can be client|server
+wtd_app_git_role: "client"
 
 wtd_app_git_package:
   - git
@@ -74,7 +74,7 @@ wtd_app_git_package:
 wtd_app_git_package_state: "present"
 
 # Below variables are only used for wtd_app_git_mode: "server"
-wtd_app_git_dir: "/git"
+wtd_app_git_dir: "/var/git"
 ```
 
 ### Example Playbook
@@ -101,7 +101,7 @@ Install git with capabilities to server repositories.
 - hosts: all
   roles:
     - role: while_true_do.app_git
-      wtd_app_git_mode: "server"
+      wtd_app_git_role: "server"
 ```
 
 ## Testing

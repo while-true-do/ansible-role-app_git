@@ -1,0 +1,48 @@
+---
+# tasks file for while_true_do.app_git
+
+- name: Manage git Shell
+  lineinfile:
+    path: "/etc/shells"
+    line: "/usr/bin/git-shell"
+  become: true
+  when:
+    - wtd_app_git_package_state != "absent"
+  tags:
+    - git
+    - configuration
+    - service
+    - shell
+
+- name: Manage git User
+  user:
+    name: "git"
+    state: "present"
+    comment: "technical git user"
+    shell: "/usr/bin/git-shell"
+    system: true
+    password_lock: true
+  become: true
+  when:
+    - wtd_app_git_package_state != "absent"
+  tags:
+    - git
+    - configuration
+    - service
+    - user
+
+- name: Manage git Directory
+  file:
+    path: "{{ wtd_app_git_dir }}"
+    state: "directory"
+    owner: "git"
+    group: "git"
+    mode: 0770
+  become: true
+  when:
+    - wtd_app_git_package_state != "absent"
+  tags:
+    - git
+    - configuration
+    - service
+    - directory
