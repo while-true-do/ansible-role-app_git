@@ -9,7 +9,15 @@
   tags:
     - git
     - package
+    - system
 
 - name: Include role Tasks
   include_tasks: "{{ wtd_app_git_role }}.yml"
-  when: wtd_app_git_package_state != "absent"
+  when:
+    - wtd_app_git_package_state != "absent"
+  tags:
+    - git
+    - package
+    - service
+    - configuration
+    - system

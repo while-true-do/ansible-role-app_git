@@ -1,14 +1,33 @@
 ---
 # defaults file for while_true_do.app_git
 
+## Role Management
 # Role can be client|server
 wtd_app_git_role: "client"
 
+## Package Management
+# https://docs.ansible.com/ansible/latest/modules/package_module.html
 wtd_app_git_package:
   - git
-  - git-svn
 # State can be present|latest|absent
 wtd_app_git_package_state: "present"
 
-# Below variables are only used for wtd_app_git_mode: "server"
-wtd_app_git_dir: "/var/git"
+# Packages for wtd_app_git_role: "client"
+wtd_app_git_client_package:
+  - git-svn
+  - git-extras
+# State can be present|latest|absent
+wtd_app_git_client_package_state: "present"
+
+## Configuration Management
+# Below variables are only used for wtd_app_git_role: "server"
+wtd_app_git_server_conf_dir: "/var/git"
+wtd_app_git_server_conf_shell: "/usr/bin/git-shell"
+wtd_app_git_server_conf_group: "git"
+wtd_app_git_server_conf_authorized_key: []
+# - key: <some key>
+#   state: present # defaults to present
+wtd_app_git_server_conf_user:
+    name: "git"
+    home: "/home/git"
+    shell: "/usr/bin/git-shell"

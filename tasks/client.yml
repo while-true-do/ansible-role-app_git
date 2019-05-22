@@ -1,2 +1,13 @@
 ---
 # tasks file for while_true_do.app_git
+
+- name: Manage git Client Packages
+  package:
+    name: "{{ wtd_app_git_client_package }}"
+    state: "{{ wtd_app_git_client_package_state }}"
+  become: true
+  tags:
+    - git
+    - development
+    - package
+    - system

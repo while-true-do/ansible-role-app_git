@@ -41,8 +41,10 @@ Used Modules:
 
 -   [Ansible Package Module](https://docs.ansible.com/ansible/latest/modules/package_module.html)
 -   [Ansible User Module](https://docs.ansible.com/ansible/latest/modules/user_module.html)
+-   [Ansible Group Module](https://docs.ansible.com/ansible/latest/modules/group_module.html)
 -   [Ansible File Module](https://docs.ansible.com/ansible/latest/modules/file_module.html)
 -   [Ansible Lineinfile Module](https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html)
+-   [Ansible authorized_key Module](https://docs.ansible.com/ansible/latest/modules/authorized_key_module.html)
 
 ## Installation
 
@@ -56,6 +58,16 @@ Install from [Github](https://github.com/while-true-do/ansible-role-app_git)
 git clone https://github.com/while-true-do/ansible-role-app_git.git while_true_do.app_git
 ```
 
+Dependencies:
+
+Installing 'git-extras' required the [EPEL](https://fedoraproject.org/wiki/EPEL)
+repository. You can use the Ansible Role
+[while_true_do.rpo_epel](https://galaxy.ansible.com/while_true_do/rpo_epel).
+
+```
+ansible-galaxy install -r requirements.yml
+```
+
 ## Usage
 
 ### Role Variables
@@ -64,17 +76,36 @@ git clone https://github.com/while-true-do/ansible-role-app_git.git while_true_d
 ---
 # defaults file for while_true_do.app_git
 
+## Role Management
 # Role can be client|server
 wtd_app_git_role: "client"
 
+## Package Management
+# https://docs.ansible.com/ansible/latest/modules/package_module.html
 wtd_app_git_package:
   - git
-  - git-svn
 # State can be present|latest|absent
 wtd_app_git_package_state: "present"
 
-# Below variables are only used for wtd_app_git_mode: "server"
-wtd_app_git_dir: "/var/git"
+# Packages for wtd_app_git_role: "client"
+wtd_app_git_client_package:
+  - git-svn
+  - git-extras
+# State can be present|latest|absent
+wtd_app_git_client_package_state: "present"
+
+## Configuration Management
+# Below variables are only used for wtd_app_git_role: "server"
+wtd_app_git_server_conf_dir: "/var/git"
+wtd_app_git_server_conf_shell: "/usr/bin/git-shell"
+wtd_app_git_server_conf_group: "git"
+wtd_app_git_server_conf_authorized_key: []
+# - key: <some key>
+#   state: present # defaults to present
+wtd_app_git_server_conf_user:
+    name: "git"
+    home: "/home/git"
+    shell: "/usr/bin/git-shell"
 ```
 
 ### Example Playbook
@@ -90,6 +121,7 @@ can be done in a
 ---
 - hosts: all
   roles:
+    - role: while_true_do.rpo_epel
     - role: while_true_do.app_git
 ```
 

@@ -4,27 +4,48 @@
 - name: Manage git Shell
   lineinfile:
     path: "/etc/shells"
-    line: "/usr/bin/git-shell"
+    line: "{{ wtd_app_git_server_conf_shell }}"
   become: true
-  when:
-    - wtd_app_git_package_state != "absent"
   tags:
     - git
     - configuration
     - service
     - shell
 
+- name: Manage git Group
+  group:
+    name: "{{ wtd_app_git_server_conf_group }}"
+    state: "present"
+  become: true
+  tags:
+    - git
+    - configuration
+    - service
+    - group
+
 - name: Manage git User
   user:
-    name: "git"
+    name: "{{ wtd_app_git_server_conf_user.name }}"
+    home: "{{ wtd_app_git_server_conf_user.home }}"
+    shell: "{{ wtd_app_git_server_conf_user.shell }}"
+    groups: "{{ wtd_app_git_server_conf_group }}"
     state: "present"
-    comment: "technical git user"
-    shell: "/usr/bin/git-shell"
     system: true
     password_lock: true
   become: true
-  when:
-    - wtd_app_git_package_state != "absent"
+  tags:
+    - git
+    - configuration
+    - service
+    - user
+
+- name: Manage git User Authorized Keys
+  authorized_key:
+    user: "{{ wtd_app_git_server_conf_user.name }}"
+    state: "{{ item.state | default('present') }}"
+    key: "{{ item.key }}"
+  loop: "{{ wtd_app_git_server_conf_authorized_key }}"
+  become: true
   tags:
     - git
     - configuration
@@ -33,14 +54,12 @@
 
 - name: Manage git Directory
   file:
-    path: "{{ wtd_app_git_dir }}"
+    path: "{{ wtd_app_git_server_conf_dir }}"
     state: "directory"
-    owner: "git"
-    group: "git"
+    owner: "{{ wtd_app_git_server_conf_user.name }}"
+    group: "{{ wtd_app_git_server_conf_group }}"
     mode: 0770
   become: true
-  when:
-    - wtd_app_git_package_state != "absent"
   tags:
     - git
     - configuration
