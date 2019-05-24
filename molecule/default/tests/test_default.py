@@ -37,7 +37,6 @@ def test_git_user(host):
 
     assert user.name == 'git'
     assert user.shell == '/usr/bin/git-shell'
-    assert user.password == '!!'
 
 
 def test_git_directory(host):
@@ -48,9 +47,3 @@ def test_git_directory(host):
     assert dir.user == 'git'
     assert dir.group == 'git'
     assert oct(dir.mode) == '0o770'
-
-
-def test_git_authkey(host):
-    file = host.file('/home/git/.ssh/authorized_keys')
-
-    assert file.contains('foobarbaz')

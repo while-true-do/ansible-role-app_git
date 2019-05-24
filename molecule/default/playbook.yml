@@ -10,5 +10,5 @@
     - role: while_true_do.app_git
       wtd_app_git_role: "server"
       wtd_app_git_server_conf_authorized_key:
-        - key: "ssh-rsa fooobarbaz foo@bar.baz"
+        - key: "ssh-rsa foobarbaz foo@bar.baz"
           state: "present"
