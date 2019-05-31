@@ -40,7 +40,7 @@ def test_git_user(host):
 
 
 def test_git_directory(host):
-    dir = host.file('/var/git')
+    dir = host.file('/var/lib/git')
 
     assert dir.exists
     assert dir.is_directory

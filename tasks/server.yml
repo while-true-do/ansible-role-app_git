@@ -14,7 +14,7 @@
 
 - name: Manage git Group
   group:
-    name: "{{ wtd_app_git_server_conf_group }}"
+    name: "{{ wtd_app_git_server_conf_user.group }}"
     state: "present"
   become: true
   tags:
@@ -28,7 +28,7 @@
     name: "{{ wtd_app_git_server_conf_user.name }}"
     home: "{{ wtd_app_git_server_conf_user.home }}"
     shell: "{{ wtd_app_git_server_conf_user.shell }}"
-    groups: "{{ wtd_app_git_server_conf_group }}"
+    groups: "{{ wtd_app_git_server_conf_user.group }}"
     state: "present"
     system: true
     password_lock: true
@@ -57,7 +57,7 @@
     path: "{{ wtd_app_git_server_conf_dir }}"
     state: "directory"
     owner: "{{ wtd_app_git_server_conf_user.name }}"
-    group: "{{ wtd_app_git_server_conf_group }}"
+    group: "{{ wtd_app_git_server_conf_user.group }}"
     mode: 0770
   become: true
   tags:

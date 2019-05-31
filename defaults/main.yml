@@ -21,13 +21,13 @@ wtd_app_git_client_package_state: "present"
 
 ## Configuration Management
 # Below variables are only used for wtd_app_git_role: "server"
-wtd_app_git_server_conf_dir: "/var/git"
+wtd_app_git_server_conf_dir: "/var/lib/git"
 wtd_app_git_server_conf_shell: "/usr/bin/git-shell"
-wtd_app_git_server_conf_group: "git"
 wtd_app_git_server_conf_authorized_key: []
 # - key: <some key>
 #   state: present # defaults to present
 wtd_app_git_server_conf_user:
   name: "git"
+  group: "git"
   home: "/home/git"
   shell: "/usr/bin/git-shell"
